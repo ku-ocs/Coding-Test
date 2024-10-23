@@ -55,7 +55,7 @@ for (int i = 1; i <= 5; i++) {
 
 // 새로운 클래스 생성 - ArrayList 활용해보기
 // 생성자는 재정의할 필요가 없다고 느낌 - 받아오는 입력값으로 set 할 예정
-public class StudentPractice {
+class StudentPractice {
     private int id;
     private String name;
     private int koreanScore;
