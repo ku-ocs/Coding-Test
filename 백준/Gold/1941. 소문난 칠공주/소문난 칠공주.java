@@ -81,7 +81,7 @@ public class Main {
                 }
 
                 cnt++;
-                bt(i);
+                bt(i + 1);
                 btVis[i] = 0;
                 cnt--;
 
