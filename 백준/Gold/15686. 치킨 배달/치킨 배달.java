@@ -4,7 +4,7 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int n, m, dist, answer, hIdx, cIdx;
-    static int[][] town, home, chicken, selChicken;
+    static int[][] home, chicken, selChicken;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -12,7 +12,6 @@ public class Main {
 
         n = Integer.parseInt(stz.nextToken());
         m = Integer.parseInt(stz.nextToken());
-        town = new int[n][n];
         home = new int[2*n][2];
         chicken = new int[13][2];
         selChicken = new int[m][2];
@@ -21,15 +20,12 @@ public class Main {
             stz = new StringTokenizer(br.readLine(), " ");
             for (int j = 0; j < n; j++) {
                 int building = Integer.parseInt(stz.nextToken());
-                town[i][j] = building;
-
                 if (building == 1) home[hIdx++] = new int[] {i ,j};
                 if (building == 2) chicken[cIdx++] = new int[] {i, j};
             }
         }
 
         bt(0, 0);
-
         System.out.println(answer);
     }
 
