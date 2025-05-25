@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
     static int N;
     static Long[] arr, arr2;
-    static Set<Long> set = new HashSet<>();
+    static Set<Long> set = new TreeSet<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -18,8 +18,11 @@ public class Main {
             set.add(l);
         }
 
-        arr2 = set.toArray(new Long[0]);
-        Arrays.sort(arr2);
+        arr2 = new Long[set.size()];
+        int idx = 0;
+        for (long l : set) {
+            arr2[idx++] = l;
+        }
 
         for (long l : arr) {
             int s = 0;
