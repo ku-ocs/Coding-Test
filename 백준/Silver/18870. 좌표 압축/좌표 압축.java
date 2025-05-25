@@ -3,13 +3,13 @@ import java.util.*;
 
 public class Main {
     static int N;
-    static Long[] arr, arr2;
+    static long[] arr, arr2;
     static Set<Long> set = new TreeSet<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         N = Integer.parseInt(br.readLine());
-        arr = new Long[N];
+        arr = new long[N];
 
         StringTokenizer stz = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < N; i++) {
@@ -18,11 +18,7 @@ public class Main {
             set.add(l);
         }
 
-        arr2 = new Long[set.size()];
-        int idx = 0;
-        for (long l : set) {
-            arr2[idx++] = l;
-        }
+        arr2 = set.stream().mapToLong(Long::longValue).toArray();
 
         for (long l : arr) {
             int s = 0;
