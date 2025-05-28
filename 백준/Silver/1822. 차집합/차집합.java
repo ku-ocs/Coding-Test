@@ -1,14 +1,14 @@
 import java.io.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static int N, M;
-    static HashSet<Integer> set1 = new HashSet<>();
+    static TreeSet<Integer> set1 = new TreeSet<>();
     static HashSet<Integer> set2 = new HashSet<>();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer stz = new StringTokenizer(br.readLine(), " ");
 
         N = Integer.parseInt(stz.nextToken());
@@ -23,18 +23,17 @@ public class Main {
         for (int i = 0; i < M; i++) {
             set2.add(Integer.parseInt(stz.nextToken()));
         }
-        for (int i : set2) {
-            if (set1.contains(i)) set1.remove(i);
-        }
 
-        int[] arr1 = set1.stream().sorted().mapToInt(Integer::intValue).toArray();
-        if(set1.size() > 0) {
-            System.out.println(set1.size());
-            for (int i : arr1) {
-                System.out.print(i + " ");
-            }
-        } else {
+        set1.removeAll(set2);
+        
+        if (set1.isEmpty()) {
             System.out.println(0);
+        } else {
+            bw.write(set1.size() + "\n");
+            for (int i : set1) {
+                bw.write(i + " ");
+            }
+            bw.flush();
         }
 
         br.close();
