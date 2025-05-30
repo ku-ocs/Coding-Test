@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,16 +12,17 @@ public class Main {
         N = Integer.parseInt(stz.nextToken());
         M = Integer.parseInt(stz.nextToken());
         arr = new int[N];
+        long max = 0;
 
         stz = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(stz.nextToken());
+            int num = Integer.parseInt(stz.nextToken());
+            arr[i] = num;
+            max = Math.max(max, num);
         }
 
-        Arrays.sort(arr);
-
         long s = 0;
-        long e = arr[N-1];
+        long e = max;
         while (s <= e) {
             long m = (s + e) / 2;
             long sum = 0;
