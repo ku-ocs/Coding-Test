@@ -1,12 +1,11 @@
 import java.io.*;
-import java.util.HashSet;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N;
+    static int N, max;
     static long answer;
     static int[] arr;
-    static HashSet<Integer> set = new HashSet<>();
+    static boolean[] B = new boolean[100001];
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,19 +15,22 @@ public class Main {
 
         stz = new StringTokenizer(br.readLine(), " ");
         for (int i = 0; i < N; i++) {
-            arr[i] = Integer.parseInt(stz.nextToken());
+            int num = Integer.parseInt(stz.nextToken());
+            arr[i] = num;
+            max = Math.max(max, num);
         }
 
         int s = 0;
         int e = 0;
+        B = new boolean[max+1];
 
-        while (s != N) {
-            if (e < N && !set.contains(arr[e])) {
-                set.add(arr[e++]);
+        while (s < N) {
+            if (e < N && !B[arr[e]]) {
+                B[arr[e++]] = true;
                 continue;
             }
             answer += e - s;
-            set.remove(arr[s++]);
+            B[arr[s++]] = false;
         }
 
         System.out.println(answer);
