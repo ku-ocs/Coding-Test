@@ -1,12 +1,9 @@
 import java.io.*;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, K, length, sum, answer;
+    static int N, K, s, e, odd, answer;
     static int[] arr;
-    static Queue<Integer> queue = new LinkedList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -20,29 +17,27 @@ public class Main {
             arr[i] = Integer.parseInt(stz.nextToken());
         }
 
-        int s = 0;
-        int e = 0;
-
-        while (true) {
-            if (e == N || arr[e] % 2 != 0) {
-                length = e-s;
-                queue.add(length);
-                sum += length;
-                if (queue.size() > K+1) {
-                    sum -= queue.poll();
-                }
-                answer = Math.max(sum, answer);
-                if (e == N) {
-                    break;
-                } else {
-                    e++;
-                    s = e;
-                }
-            } else {
+        while (e < N) {
+            if (arr[e] % 2 == 0) {
                 e++;
+            } else {
+                getAnswer();
+                odd++;
+                e++;
+                while (odd > K && s < N) {
+                    if (arr[s++] % 2 != 0) {
+                        odd--;
+                    }
+                }
             }
         }
 
+        getAnswer();
+
         System.out.println(answer);
+    }
+
+    public static void getAnswer() {
+        answer = Math.max(answer, e - s - odd);
     }
 }
