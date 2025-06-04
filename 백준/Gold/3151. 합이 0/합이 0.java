@@ -20,11 +20,6 @@ public class Main {
 
         Arrays.sort(arr);
 
-        if (arr[0] > 0) {
-            System.out.println(0);
-            return;
-        }
-
         if (arr[N-1] < 0) {
             System.out.println(0);
             return;
@@ -32,45 +27,45 @@ public class Main {
 
         for (int i = 0; i < N; i++) {
             if (arr[i] > 0) break;
-            for (int j = i+1; j < N; j++) {
-                int sum = arr[i] + arr[j];
+            int s = i+1;
+            int e = N-1;
 
-                int s = j+1;
-                int e = N-1;
+            while (s < e) {
+                int sum = arr[i] + arr[s] + arr[e];
+                if (sum > 0) {
+                    e--;
+                    continue;
+                }
 
-                int l = lowerBound(sum, s, e);
-                int u = upperBound(sum, s, e);
+                if (sum < 0) {
+                    s++;
+                    continue;
+                }
 
-                cnt += u-l;
+                int sVal = arr[s];
+                int eVal = arr[e];
+                if (sVal == eVal) {
+                    int count = e-s+1;
+                    cnt += count*(count-1)/2;
+                    break;
+                }
+
+                int sCount = 0;
+                int eCount = 0;
+                while (s <= e && arr[s] == sVal) {
+                    sCount++;
+                    s++;
+                }
+
+                while (s <= e && arr[e] == eVal) {
+                    eCount++;
+                    e--;
+                }
+
+                cnt += sCount * eCount;
             }
         }
 
         System.out.println(cnt);
     }
-
-    public static int lowerBound(int sum, int s, int e) {
-        while (s <= e) {
-            int m = (s + e) / 2;
-            if (sum + arr[m] >= 0) {
-                e = m-1;
-            } else {
-                s = m+1;
-            }
-        }
-        return s;
-    }
-
-    public static int upperBound(int sum, int s, int e) {
-        while (s <= e) {
-            int m = (s + e) / 2;
-            if (sum + arr[m] > 0) {
-                e = m-1;
-            } else {
-                s = m+1;
-            }
-        }
-
-        return s;
-    }
-
 }
