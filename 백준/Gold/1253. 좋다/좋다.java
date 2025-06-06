@@ -28,42 +28,34 @@ public class Main {
     }
 
     public static boolean isGood(int idx) {
-        next:
-        for (int j = 0; j < N; j++) {
-            if (j == idx) continue;
-            int need = arr[idx] - arr[j];
-            int s = 0;
-            int e = arr.length-1;
+        int s = 0;
+        int e = arr.length-1;
 
-            while (s <= e) {
-                int m = (s + e) / 2;
+        while (true) {
+            if (s == idx) {
+                s++;
+            }
 
-                if (need == arr[m]) {
-                    if (m != idx && m != j) return true;
-                    // m 의 앞 뒤로 길게 탐색하여 arr[m] 과 값이 같고 m 이 idx, j 와 다른 m 찾기.
-                    int fm = m;
-                    int bm = m;
-                    while (fm >= 0 && arr[m] == arr[fm]) {
-                        if (fm != idx && fm != j) {
-                            return true;
-                        }
-                        fm--;
-                    }
-                    while (bm < N && arr[m] == arr[bm]) {
-                        if (bm != idx && bm != j) {
-                            return true;
-                        }
-                        bm++;
-                    }
-                    continue next;
-                } else if (need > arr[m]) {
-                    s = m + 1;
+            if (e == idx) {
+                e--;
+            }
+
+            if (s >= e) {
+                return false;
+            }
+
+            int target = arr[idx];
+            int sum = arr[s] + arr[e];
+
+            if (target == sum) {
+                return true;
+            } else {
+                if (sum > target) {
+                    e--;
                 } else {
-                    e = m - 1;
+                    s++;
                 }
             }
         }
-
-        return false;
     }
 }
