@@ -1,13 +1,10 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static int T, N, M;
     static long answer;
     static int[] arrN, arrM;
-    static ArrayList<Integer> listN, listM;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,71 +13,51 @@ public class Main {
         N = Integer.parseInt(br.readLine());
         arrN = new int[N];
         StringTokenizer stz = new StringTokenizer(br.readLine(), " ");
-        for (int i = 0; i < N; i++) {
-            arrN[i] = Integer.parseInt(stz.nextToken());
-        }
+        for (int i = 0; i < N; i++) arrN[i] = Integer.parseInt(stz.nextToken());
 
         M = Integer.parseInt(br.readLine());
         arrM = new int[M];
         stz = new StringTokenizer(br.readLine(), " ");
-        for (int i = 0; i < M; i++) {
-            arrM[i] = Integer.parseInt(stz.nextToken());
-        }
+        for (int i = 0; i < M; i++) arrM[i] = Integer.parseInt(stz.nextToken());
 
-        listN = new ArrayList<>();
-        listM = new ArrayList<>();
+        Map<Integer, Integer> map = new HashMap<>();
 
-        for (int i = 0; i < N; i++) {
-            int sumN = arrN[i];
-            listN.add(sumN);
-            for (int j = i+1; j < N; j++) {
-                sumN += arrN[j];
-                listN.add(sumN);
+        if (N >= M) {
+            for (int i = 0; i < M; i++) {
+                int sum = 0;
+                for (int j = i; j < M; j++) {
+                    sum += arrM[j];
+                    map.put(sum, map.getOrDefault(sum, 0) + 1);
+                }
             }
-        }
 
-        for (int i = 0; i < M; i++) {
-            int sumM = arrM[i];
-            listM.add(sumM);
-            for (int j = i+1; j < M; j++) {
-                sumM += arrM[j];
-                listM.add(sumM);
+            for (int i = 0; i < N; i++) {
+                int sum = 0;
+                for (int j = i; j < N; j++) {
+                    sum += arrN[j];
+                    answer += map.getOrDefault(T - sum, 0);
+                }
             }
-        }
 
-        Collections.sort(listM);
+        } else {
 
-        arrM = listM.stream().mapToInt(Integer::intValue).toArray();
+            for (int i = 0; i < N; i++) {
+                int sum = 0;
+                for (int j = i; j < N; j++) {
+                    sum += arrN[j];
+                    map.put(sum, map.getOrDefault(sum, 0) + 1);
+                }
+            }
 
-        for (int i : listN) {
-            int l = lower(i);
-            int u = upper(i);
-
-            answer += l-u;
+            for (int i = 0; i < M; i++) {
+                int sum = 0;
+                for (int j = i; j < M; j++) {
+                    sum += arrM[j];
+                    answer += map.getOrDefault(T - sum, 0);
+                }
+            }
         }
 
         System.out.println(answer);
-    }
-
-    public static int lower(int i) {
-        int s = 0;
-        int e = arrM.length-1;
-        while (s <= e) {
-            int m = (s+e) / 2;
-            if (i + arrM[m] > T) e = m-1;
-            else s = m+1;
-        }
-        return s;
-    }
-
-    public static int upper(int i) {
-        int s = 0;
-        int e = arrM.length-1;
-        while (s <= e) {
-            int m = (s+e) / 2;
-            if (i + arrM[m] >= T) e = m-1;
-            else s = m+1;
-        }
-        return s;
     }
 }
