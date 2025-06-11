@@ -21,36 +21,26 @@ public class Main {
         Arrays.sort(arr);
 
         for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (j == i) {
-                    continue;
+            int s = i+1;
+            int e = arr.length-1;
+            while (s < e) {
+                if (e == i) e--;
+
+                long sum = arr[i] + arr[s] + arr[e];
+                if (answer > Math.abs(sum)) {
+                    answer = Math.abs(sum);
+                    answerArr = new long[] {arr[i], arr[s], arr[e]};
                 }
-                long f1 = arr[i];
-                long f2 = arr[j];
 
-                int s = 0;
-                int e = arr.length-1;
-
-                while (s <= e) {
-                    int m = (s + e) / 2;
-                    long sum = f1 + f2 + arr[m];
-                    long absSum = Math.abs(sum);
-
-                    if (m != i && m != j && answer > absSum) {
-                        answer = absSum;
-                        answerArr = new long[] {f1, f2, arr[m]};
-                    }
-
-                    if (sum > 0) {
-                        e = m-1;
-                    } else {
-                        s = m+1;
-                    }
+                if (sum == 0) {
+                    break;
+                } else if (sum > 0) {
+                    e--;
+                } else {
+                    s++;
                 }
             }
         }
-
-        Arrays.sort(answerArr);
 
         for (long i : answerArr) {
             bw.write(i+" ");
