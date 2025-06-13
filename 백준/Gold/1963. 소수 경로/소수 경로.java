@@ -6,6 +6,8 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int T, n1, n2;
+    static int[] number = new int[4];
+    static boolean isFound;
     static boolean[] arr = new boolean[10000];      // 소수면 true
     static boolean[] vis = new boolean[10000];      // 방문했으면 true
     static Queue<int[]> queue = new LinkedList<>();
@@ -20,48 +22,53 @@ public class Main {
             if (!arr[i]) {
                 continue;
             }
-            for (int j = 2; j*i < 10000; j++) {
+            for (int j = i; j*i < 10000; j++) {
                 arr[j*i] = false;
             }
         }
 
         StringTokenizer stz;
-        next:
         for (int i = 0; i < T; i++) {
             stz = new StringTokenizer(br.readLine(), " ");
             n1 = Integer.parseInt(stz.nextToken());
             n2 = Integer.parseInt(stz.nextToken());
             Arrays.fill(vis, false);
             queue.clear();
+            isFound = false;
 
             queue.offer(new int[] {n1, 0});
+            vis[n1] = true;
 
             while (!queue.isEmpty()) {
                 int[] numArr = queue.poll();
                 int num = numArr[0];
                 int cnt = numArr[1];
-                vis[num] = true;
                 if (num == n2) {
                     bw.write(cnt + "\n");
-                    continue next;
+                    isFound = true;
+                    break;
                 }
-
-                String strNum = String.valueOf(num);
-                char[] charsNum;
+                number[0] = num / 1000;
+                number[1] = num / 100 % 10;
+                number[2] = num / 10 % 10;
+                number[3] = num % 10;
 
                 for (int j = 0; j < 4; j++) {
+                    int origin = number[j];
                     for (int k = 0; k < 10; k++) {
                         if (j == 0 && k == 0) continue;
-                        charsNum = strNum.toCharArray();
-                        charsNum[j] = (char) (48 + k);
-
-                        int newNum = Integer.parseInt(new String(charsNum));
+                        number[j] = k;
+                        int newNum = number[0] * 1000 + number[1] * 100 + number[2] * 10 + number[3];
                         checkNum(newNum, cnt);
                     }
+                    number[j] = origin;
                 }
             }
 
-            bw.write("Impossible" + "\n");
+            if (!isFound) {
+                bw.write("Impossible" + "\n");
+            }
+
         }
         bw.flush();
         bw.close();
@@ -72,6 +79,7 @@ public class Main {
         if (!arr[num] || vis[num]) {
             return;
         }
+        vis[num] = true;
 
         queue.offer(new int[] {num, cnt+1});
     }
