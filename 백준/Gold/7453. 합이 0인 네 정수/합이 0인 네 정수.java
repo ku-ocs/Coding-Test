@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -41,40 +42,39 @@ public class Main {
         Arrays.sort(AB);
         Arrays.sort(CD);
 
-        for (int i = 0; i < AB.length; i++) {
-            long num = AB[i];
-            isFind = false;
-            int l = lowerBound(-num);
-            int u = upperBound(-num);
+        int s = 0;
+        int e = CD.length-1;
 
-            if (isFind) {
-                answer += u-l;
+        while (s < AB.length && e >= 0) {
+            long sum = AB[s] + CD[e];
+
+            if (sum > 0) {
+                e--;
+                continue;
             }
+
+            if (sum < 0) {
+                s++;
+                continue;
+            }
+
+            int sCnt = 1;
+            while (s < AB.length-1 && AB[s] == AB[s+1]) {
+                sCnt++;
+                s++;
+            }
+
+            int eCnt = 1;
+            while (e > 0 && CD[e] == CD[e-1]) {
+                eCnt++;
+                e--;
+            }
+
+            answer += (long) sCnt*eCnt;
+            s++;
         }
+
 
         System.out.println(answer);
-    }
-
-    public static int lowerBound(long num) {
-        int s = 0;
-        int e = CD.length-1;
-        while (s <= e) {
-            int m = (s+e) / 2;
-            if (CD[m] >= num) e = m-1;
-            else s = m+1;
-        }
-        if (s < CD.length && CD[s] == num) isFind = true;
-        return s;
-    }
-
-    public static int upperBound(long num) {
-        int s = 0;
-        int e = CD.length-1;
-        while (s <= e) {
-            int m = (s+e) / 2;
-            if (CD[m] > num) e = m-1;
-            else s = m+1;
-        }
-        return s;
     }
 }
