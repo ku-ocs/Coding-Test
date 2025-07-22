@@ -5,7 +5,6 @@ public class Main {
 	static int N, M, cnt, cutCnt;
 	static boolean[] vis;
 	static ArrayList<Integer>[] lineList;
-	static Queue<int[]> queue = new LinkedList<>();
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer stz = new StringTokenizer(br.readLine(), " ");
@@ -29,29 +28,21 @@ public class Main {
 		for (int i = 1; i<= N; i++) {
 			if (vis[i]) continue;
 			cnt++;
-			bfs(i);
+			dfs(i, -1);
 		}
 		
-		System.out.println((cutCnt/2) + cnt - 1);
+		System.out.println((cutCnt / 2) + cnt - 1);
 	}
 
-	public static void bfs(int s) {
-		queue.clear();
-		queue.offer(new int[] {s, -1});
+	public static void dfs(int s, int p) {
 		vis[s] = true;
-		while (!queue.isEmpty()) {
-			int[] arr = queue.poll();
-			int n = arr[0];
-			int p = arr[1];
-			for (int i : lineList[n]) {
-				if (i == p) continue;
-				if (vis[i]) {
-					cutCnt++;
-					continue;
-				}
-				vis[i] = true;
-				queue.offer(new int[] {i, n});
+		for (int n : lineList[s]) {
+			if (n == p) continue;
+			if (vis[n]) {
+				cutCnt++;
+				continue;
 			}
+			dfs(n, s);
 		}
 	}
 }
