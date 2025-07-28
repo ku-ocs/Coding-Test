@@ -37,20 +37,10 @@ public class Main {
 		else return arr[n] = find(arr[n]);
 	}
 
-	// union by rank 적용
 	public static boolean union(int n1, int n2) {
 		n1 = find(n1);
 		n2 = find(n2);
 		if (n1 == n2) return false;
-        // n1 과 n2 의 랭크는 음수의 절댓값으로 표현되고 있으므로
-        // n2 < n1 의 의미는 n2 가 더 큰 rank 를 가지고 있다는 뜻
-        // 큰 rank를 작은 rank의 root로 쓴다.
-		if (arr[n2] < arr[n1]) {
-			int temp = n1;
-			n1 = n2;
-			n2 = temp;
-		}
-		arr[n1]--;
 		arr[n2] = n1;
 		return true;
 	}
