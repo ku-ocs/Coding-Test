@@ -7,6 +7,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
 		N = Integer.parseInt(br.readLine());
 		p = new int[1000001];
@@ -25,9 +26,11 @@ public class Main {
 				union(n1, n2);
 			} else {
 				int n = Integer.parseInt(stz.nextToken());
-				bw.write(cnt[find(n)] + "\n");
+		        sb.append(cnt[find(n)]);
+				sb.append("\n");
 			}
 		}
+        bw.write(sb.toString());
 
 		bw.flush();
 		bw.close();
