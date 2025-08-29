@@ -72,11 +72,11 @@ public class Main {
 			long curD = cur[0];
 			int curN = (int) cur[1];
 			int lineCnt = (int) cur[2];
+			if (lineCnt >= N) continue;
 			if (curD > p[curN][lineCnt]) continue;
 			for(int[] nxt : oriList[curN]) {
 				int nxtD = nxt[0];
 				int nxtN = nxt[1];
-				if (lineCnt >= N) continue;
 				if (curD + nxtD >= p[nxtN][lineCnt+1]) continue;
 				p[nxtN][lineCnt+1] = curD + nxtD;
 				pq.offer(new long[] {curD + nxtD, nxtN, lineCnt+1 });
